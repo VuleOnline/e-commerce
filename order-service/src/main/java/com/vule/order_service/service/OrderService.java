@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.vule.order_service.dto.AddressDto;
 import com.vule.order_service.dto.CartItemDto;
 import com.vule.order_service.dto.DeliveryInfoDto;
-import com.vule.order_service.dto.OrderRequestDto;
 import com.vule.order_service.dto.OrderResponseDto;
 import com.vule.order_service.dto.ProductDto;
 import com.vule.order_service.dto.UserDto;
@@ -79,7 +78,6 @@ public class OrderService {
 	 		}
 	 		List<CartItemDto> cartItems = cartResponse.getBody();
 
-// Proveri stanje proizvoda i keširaj ProductDto
 	 		Map<Long, ProductDto> productCache = new HashMap<>();
 	 		for (CartItemDto item : cartItems) {
 	 			ResponseEntity<ProductDto> productResponse = productClient.getProductById(item.getProductId());
@@ -96,7 +94,6 @@ public class OrderService {
     
 }
 
-// Dohvati podatke o dostavi
 	 	DeliveryInfo deliveryInfo = new DeliveryInfo();
 	 	if (username != null && !username.equals("guest")) {
 	 		ResponseEntity<UserDto> userResponse = userClient.getUserByUsername(username, authHeader);
@@ -128,9 +125,8 @@ public class OrderService {
 		deliveryInfo.setPhone(deliveryInfoDto.getPhone());
 }
 
-// Kreiraj porudžbinu
 	 	Order order = new Order();
-	 	order.setUserId(deliveryInfo.getId()); // <-- koristi Long userId; ako imaš samo username, zameni ili konvertuj
+	 	order.setUserId(deliveryInfo.getId()); 
 
 	 	List<OrderItem> items = cartItems.stream()
 	 	    .map(item -> {
@@ -149,7 +145,6 @@ public class OrderService {
 
 	 	order.setItems(items);
 
-	 	// deliveryInfo -> polja (prilagodi nazive metoda na deliveryInfo objektu)
 	 	order.setDeliveryName(deliveryInfo.getFirstName());
 	 	order.setDeliveryLastName(deliveryInfo.getLastName());
 	 	order.setDeliveryAddress(deliveryInfo.getAddress());

@@ -23,14 +23,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId; // može biti null ako nije ulogovan
+    private Long userId; 
     private String deliveryName;
     private String deliveryLastName;
     private AddressDto deliveryAddress;
     private String deliveryPhone;
 
     private Double totalPrice;
-    private String status; // CREATED, SHIPPED itd.
+    private String status;
 
     private LocalDateTime createdAt;
 
