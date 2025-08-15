@@ -35,10 +35,11 @@ public class Helper {
 		logger.info("Method completed:{}", joinPoint.getSignature().getName());
 	}
 	
-	public void checkJwt(String jwt) {
+	@Before("execution(* com.vule.order_service.service.OrderService.*(..)) && args(token,..)")
+	public void checkJwt(String token) {
 		try {
-            if (jwt != null) {
-                String username = jwtService.extractUsername(jwt);
+            if (token != null) {
+                String username = jwtService.extractUsername(token);
                 logger.info("JWT valid for user: {}", username);
             }
         } catch (JwtException e) {
